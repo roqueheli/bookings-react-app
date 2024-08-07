@@ -1,0 +1,36 @@
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.h3-title {
+    color: #F55376;
+}
+
+.search-color {
+    background-color: #3DD9EB;
+    border-color: #3DD9EB;
+    width: 40%;
+    color: #F55376;
+    transition: .5s all ease;
+}
+
+.search-color:hover {
+    color: #3DD9EB;
+    border-color: #F55376;
+    background-color: #F55376;
+}
+
+.form-container {
+    width: 80%;
+    padding: 1rem;
+}
+
+@media (min-width: 991px){
+    .form-container {
+        display: block;
+    }
+}

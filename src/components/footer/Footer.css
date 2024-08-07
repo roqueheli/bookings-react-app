@@ -1,0 +1,37 @@
+.footer-container {
+    background-color: #3DD9EB;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* .copyright-container {
+} */
+
+.copyright-container p {
+    cursor: pointer;
+    margin-left: 1.5rem;
+    transition: .5s all ease;
+}
+
+.copyright-container p, .rrss-container i {
+    color: #EB0000;
+    cursor: pointer;
+    margin-top: revert;
+}
+
+.copyright-container p:hover, .rrss-container p:hover, .rrss-container i:hover {
+    color: #F55376;
+}
+
+.rrss-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.rrss-container i {
+    margin-right: 3rem;
+    font-size: 22px;
+    transition: .5s all ease;
+}

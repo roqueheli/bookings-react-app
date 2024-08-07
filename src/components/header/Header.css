@@ -1,0 +1,33 @@
+.navbar-position {
+    width: 100%;
+    z-index: 1;
+}
+
+.title-color {
+    color: #EB0000;
+}
+
+.title-color:hover {
+    color: #F55376;
+}
+
+.header-button {
+    color: #3DD9EB;
+    border-color: #3DD9EB;
+    width: 90%;
+    transition: .5s all ease;
+}
+
+.header-button:hover {
+    background-color: #3DD9EB;
+    color: #F55376;
+    border-color: #F55376;
+}
+
+.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
