@@ -21,7 +21,7 @@ const ServicesSelect = ({ selectedServices, handleServiceChange }) => {
                 className="custom-select-multiple"
                 multiple
                 value={selectedServices}
-                onChange={(e) => handleServiceChange(e)}>
+                onChange={handleServiceChange}>
                 {data?.map((service) => (
                   <option key={service?.service_id} value={service?.service_id}>
                     {service?.name}

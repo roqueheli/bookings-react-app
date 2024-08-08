@@ -5,9 +5,10 @@ const useFetch = () => {
     data: null,
     isLoading: true,
     error: null,
+    status: null,
   });
 
-  const { data, isLoading, error } = state;
+  const { data, isLoading, error, status } = state;
 
   const fetchData = async (url, method, bodyData = null) => {    
     if (!url) return;
@@ -22,21 +23,13 @@ const useFetch = () => {
             ? null
             : JSON.stringify(bodyData),
       };
-
+      
       const res = await fetch(url, options);
       const data = await res.json();
 
-      setState({
-        data,
-        isLoading: false,
-        error: null,
-      });
+      setState({ data, isLoading: false, error: null, status: res.status });
     } catch (error) {
-      setState({
-        data: null,
-        isLoading: false,
-        error,
-      });
+      setState({ data: null, isLoading: false, error, status: res.status });
     }
   };
 
@@ -44,6 +37,7 @@ const useFetch = () => {
     data,
     isLoading,
     error,
+    status,
     fetchData,
   };
 };

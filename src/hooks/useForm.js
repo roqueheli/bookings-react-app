@@ -18,11 +18,29 @@ const useForm = (initialValues = {}) => {
     });
   };
 
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    setPlace({
+      ...place,
+      category: {
+        category_id: e.target.value,
+        name: e.target.options[e.target.selectedIndex].text,
+      },
+    });
+    setSelectedCategory(e.target.value);
+  };
+
   const handleImageChange = (e, index) => {
-    const { name, value } = e.target;
     const newImages = [...place.images];
-    newImages[index][name] = value;
-    setPlace({ ...place, images: newImages });
+    newImages[index] = { ...newImages[index], img_url: e.target.value };
+    setPlace((prevPlace) => ({ ...prevPlace, images: newImages }));
+  };
+  
+  const addImageField = () => {
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      images: [...prevPlace.images, { img_url: '' }],
+    }));
   };
 
   const handleRoomChange = (e, index) => {
@@ -33,18 +51,32 @@ const useForm = (initialValues = {}) => {
   };
 
   const handleServiceChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions).map(
-      (option) => option.value
+    const selectedServices = Array.from(e.target.selectedOptions).map(
+      (option) => ({
+        service: {
+          service_id: option.value, // Asumimos que el value es el service_id
+          name: option.text, // Usamos el texto de la opción para el nombre del servicio
+        },
+      })
     );
-    setSelectedServices(selectedOptions);
-  };
 
-  const addImageField = () => {
-    setPlace({ ...place, images: [...place.images, { img_url: "" }] });
+    // Actualizamos el estado place con los servicios seleccionados
+    setPlace({
+      ...place,
+      placeServices: selectedServices,
+    });
+
+    setSelectedServices(selectedServices.map((service) => service.service.service_id));
   };
 
   const addRoomField = () => {
     setPlace({ ...place, rooms: [...place.rooms, { name: "", capacity: "" }] });
+  };
+
+  const resetForm = () => {
+    setPlace(initialValues);
+    setSelectedServices([]);
+    setSelectedCategory('');
   };
 
   return {
@@ -57,8 +89,9 @@ const useForm = (initialValues = {}) => {
     addImageField,
     addRoomField,
     selectedServices,
+    handleCategoryChange,
     selectedCategory,
-    setSelectedCategory
+    resetForm,
   };
 };
 
