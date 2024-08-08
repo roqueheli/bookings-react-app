@@ -1,32 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import './Header.css';
-
-//#3DD9EB
-//#F55376
-//#EB0000
 
 const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-position">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          <img
-            src="./src/assets/reserva-96.png"
-            alt="RA Bookings"
-            width="50"
-            height="44"
-          />
-        </a>
-        <a className="navbar-brand fs-6 title-color" href="/">Hospedaje perfecto, experiencias inolvidables.</a>
+        <Link className="navbar-brand" to="/">
+          <img src="./src/assets/reserva-96.png" alt="RA Bookings" width="50" height="44" />
+        </Link>
+        <Link className="navbar-brand fs-6 title-color" to="/">Hospedaje perfecto, experiencias inolvidables.</Link>
         <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+          className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">

@@ -1,6 +1,11 @@
+.navbar {
+    position: fixed !important; /* Fija el header en la parte superior */
+    top: 0;
+    z-index: 1000;
+}
+
 .navbar-position {
     width: 100%;
-    z-index: 1;
 }
 
 .title-color {

@@ -4,7 +4,7 @@ import './Search.css';
 const Search = () => {
   return (
     <section className="search-main-container">
-        <nav className="navbar bg-dark">
+        <nav className="bg-dark">
             <div className="container-fluid search-container">
                 <h3 className="h3-title">Busca ofertas en hoteles, casas y mucho más</h3>
                 <form className="d-flex form-container" role="search">
