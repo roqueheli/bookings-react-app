@@ -25,11 +25,14 @@ const useFetch = () => {
       };
       
       const res = await fetch(url, options);
-      const data = await res.json();
-
-      setState({ data, isLoading: false, error: null, status: res.status });
+      if(res.ok){
+        const data = await res.json();
+        setState({ data, isLoading: false, error: null, status: res.status });
+      } else {
+        setState({ data: null, isLoading: false, error: res.message, status: res.status });
+      }
     } catch (error) {
-      setState({ data: null, isLoading: false, error, status: res.status });
+      console.log(error);
     }
   };
 

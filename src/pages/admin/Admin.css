@@ -1,37 +1,52 @@
 .container {
-    padding: 2rem;
+  padding: 2rem;
 }
 
 .admin-container {
-    display: flex; /* Usar flexbox para la disposición */
-    flex-direction: column; /* Alinear elementos verticalmente */
-    min-height: calc(100vh - 125px); /* Ajusta según la altura de tu header */
-    padding: 20px; /* Espaciado interno */
+  display: flex; /* Usar flexbox para la disposición */
+  flex-direction: column; /* Alinear elementos verticalmente */
+  min-height: calc(100vh - 125px); /* Ajusta según la altura de tu header */
+  padding: 20px; /* Espaciado interno */
 }
 
 .header {
-    margin-bottom: 20px; /* Espacio entre el h1 y los botones */
+  margin-bottom: 20px; /* Espacio entre el h1 y los botones */
 }
 
 .button-container {
-    display: flex; /* Usar flexbox para los botones */
-    flex-direction: column; /* Alinear botones verticalmente */
-    align-items: center; /* Centrar horizontalmente */
-    flex-grow: 1; /* Permitir que este contenedor crezca para ocupar el espacio restante */
+  display: flex; /* Usar flexbox para los botones */
+  flex-direction: column; /* Alinear botones verticalmente */
+  align-items: center; /* Centrar horizontalmente */
+  flex-grow: 1; /* Permitir que este contenedor crezca para ocupar el espacio restante */
 }
 
 fieldset {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding: 2rem;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 2rem;
 }
 
-.right-side, .left-side {
-    width: 45%;
+.right-side,
+.left-side {
+  width: 45%;
 }
 
 .s-section {
-    background-size: cover;
-    position: relative;
+  background-size: cover;
+  position: relative;
+}
+
+.admin-button {
+  background-color: transparent !important;
+  color: #3dd9eb !important;
+  border-color: #3dd9eb !important;
+  width: 90%;
+  transition: 0.5s all ease;
+}
+
+.admin-button:hover {
+  background-color: #3dd9eb !important;
+  color: #f55376 !important;
+  border-color: #f55376 !important;
 }

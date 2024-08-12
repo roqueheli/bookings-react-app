@@ -1,25 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import './Search.css';
+import { GeoAltFill, Calendar } from 'react-bootstrap-icons';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const Search = () => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   return (
     <section className="search-main-container">
-        <nav className="bg-dark">
-            <div className="container-fluid search-container">
-                <h3 className="h3-title">Busca ofertas en hoteles, casas y mucho más</h3>
-                <form className="d-flex form-container" role="search">
-                    <div className="input-group flex-nowrap">
-                        <span className="input-group-text" id="addon-wrapping">@</span>
-                        <input type="text" className="form-control me-2" placeholder="¿A dónde vamos?" />
-                    </div>
-                    <div className="input-group flex-nowrap">
-                        <span className="input-group-text" id="addon-wrapping">@</span>
-                        <input className="form-control me-2" type="search" placeholder="Check in - Check out" />
-                    </div>
-                    <button className="btn btn-outline-info btn-md search-color" type="submit">Search</button>
-                </form>
+      <nav className="bg-dark">
+        <div className="container">
+          <h3 className="h3-title text-center py-3">Busca ofertas en hoteles, casas y mucho más...</h3>
+          <form className="row g-3 justify-content-center" role="search">
+            <div className="col-12 col-md-5">
+              <div className="input-group">
+                <span className="input-group-text" id="addon-wrapping"><GeoAltFill /></span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="¿A dónde vamos?"
+                  aria-label="¿A dónde vamos?"
+                  aria-describedby="addon-wrapping"
+                />
+              </div>
             </div>
-        </nav>
+            <div className="col-12 col-md-5">
+              <div className="input-group flex-nowrap">
+                <span className="input-group-text" id="addon-wrapping"><Calendar /></span>
+                <DatePicker selected={startDate}
+                  onChange={(dates) => { const [start, end] = dates; setStartDate(start); setEndDate(end); }}
+                  startDate={startDate} endDate={endDate} selectsRange
+                  placeholderText="Check in - Check out" className="form-control" dateFormat="dd/MM/yyyy"
+                />
+              </div>
+            </div>
+            <div className="col-12 col-md-2 d-grid">
+              <button className="btn btn-info btn-lg h-100 w-100 search-color" type="submit">Buscar</button>
+            </div>
+          </form>
+        </div>
+      </nav>
     </section>
   );
 };

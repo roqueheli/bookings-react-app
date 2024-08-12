@@ -30,7 +30,10 @@ const initialValues = {
 };
 
 const PlaceForm = () => {
-    const { name, phone, email, category, calification, address, images, rooms, placeServices, handleChange, handleAddressChange, handleImageChange, handleRoomChange, handleServiceChange, addImageField, addRoomField, selectedServices, selectedCategory, handleCategoryChange, resetForm } = useForm(initialValues);
+    const { name, phone, email, category, calification, address, images, rooms, placeServices,
+            handleChange, handleAddressChange, handleImageChange, handleRoomChange, handleServiceChange,
+            addImageField, addRoomField, selectedServices, selectedCategory, handleCategoryChange,
+            resetForm, handleImageUpload, progress } = useForm(initialValues);
     const { status, fetchData } = useFetch();
     const [ showSuccess, setShowSuccess ] = useState(false);    
     
@@ -40,9 +43,12 @@ const PlaceForm = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         if (status === 200) {
             setShowSuccess(true);
             resetForm();
+        } else if (status >= 400){
+            setShowSuccess(true);
         }
     }, [status]);
 
@@ -50,8 +56,8 @@ const PlaceForm = () => {
         <Container>
             <h1 className='mb-4'>Crear lugar</h1>
             {showSuccess && (
-                <Alert variant="success" onClose={() => setShowSuccess(false)} dismissible>
-                    ¡Lugar creado exitosamente!
+                <Alert variant={status >= 400 ? "danger" : "success"} onClose={() => setShowSuccess(false)} dismissible>
+                    {status >= 400 ? '¡Lugar no creado!' : '¡Lugar creado exitosamente!'}
                 </Alert>
             )}
             <Form onSubmit={handleSubmit}>
@@ -133,7 +139,9 @@ const PlaceForm = () => {
                     <Form.Group as={Row} controlId={`formImage${index}`} key={index}>
                         <Form.Label column sm="2">URL imagen</Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text" name="img_url" value={image?.img_url} onChange={(e) => handleImageChange(e, index)} />
+                            <Form.Control className='mb-4' type="text" name="img_url" value={image?.img_url} onChange={(e) => handleImageChange(e, index)} readOnly />
+                            <Form.Control type="file" onChange={(e) => handleImageUpload(e, index)} />
+                            {(progress > 0 && progress < 100) && <p>Progreso: {progress}%</p>}
                         </Col>
                     </Form.Group>
                 ))}
@@ -157,7 +165,7 @@ const PlaceForm = () => {
                 <ServicesSelect selectedServices={selectedServices} handleServiceChange={handleServiceChange} />
 
                 <Form.Group>
-                    <Button variant="primary" type="submit" onClick={handleSubmit}>Crear lugar</Button>
+                    <Button className='placeform-button' variant="primary" type="submit">Crear lugar</Button>
                     <Link to="/admin" className="btn btn-secondary">Volver</Link>
                 </Form.Group>
             </Form>

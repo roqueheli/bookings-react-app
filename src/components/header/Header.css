@@ -9,24 +9,24 @@
 }
 
 .title-color {
-    color: #EB0000;
+    color: #EB0000 !important;
 }
 
 .title-color:hover {
-    color: #F55376;
+    color: #F55376 !important;
 }
 
 .header-button {
-    color: #3DD9EB;
-    border-color: #3DD9EB;
+    color: #3DD9EB !important;
+    border-color: #3DD9EB !important;
     width: 90%;
     transition: .5s all ease;
 }
 
 .header-button:hover {
-    background-color: #3DD9EB;
-    color: #F55376;
-    border-color: #F55376;
+    background-color: #3DD9EB !important;
+    color: #F55376 !important;
+    border-color: #F55376 !important;
 }
 
 .show {
