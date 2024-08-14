@@ -1,0 +1,4 @@
+.card-image {
+  height: 200px; /* Ajusta la altura según tus necesidades */
+  object-fit: cover; /* Mantiene la relación de aspecto de la imagen */
+}

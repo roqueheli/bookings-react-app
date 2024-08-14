@@ -5,6 +5,7 @@ import useForm from '../../hooks/useForm';
 import useFetch from '../../hooks/useFetch';
 import CategoriesSelect from './CategoriesSelect';
 import ServicesSelect from './ServicesSelect';
+import RRSSSelect from './RRSSSelect';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './PlaceForm.css';
 
@@ -12,6 +13,8 @@ const initialValues = {
     name: '',
     phone: '',
     email: '',
+    location: '',
+    price: '',
     calification: 0.0,
     category: { category_id: '', name: '' },
     address: {
@@ -22,18 +25,20 @@ const initialValues = {
         region: '',
         address_type: 'PLACE',
         city: '',
-        country: ''
+        country: '',
+        zip: '',
     },
+    rrss: [{ name: '', url: ''}],
     images: [{ img_url: '' }],
     rooms: [{ name: '', capacity: '' }],
     placeServices: [{ service: { service_id: '', name: '' } }]
 };
 
 const PlaceForm = () => {
-    const { name, phone, email, category, calification, address, images, rooms, placeServices,
+    const { name, phone, email, category, price, calification, address, rrss, images, rooms, placeServices,
             handleChange, handleAddressChange, handleImageChange, handleRoomChange, handleServiceChange,
             addImageField, addRoomField, selectedServices, selectedCategory, handleCategoryChange,
-            resetForm, handleImageUpload, progress } = useForm(initialValues);
+            resetForm, handleRRSSChange, addRRSSField, selectedRRSS, handleImageUpload, progress } = useForm(initialValues);
     const { status, fetchData } = useFetch();
     const [ showSuccess, setShowSuccess ] = useState(false);    
     
@@ -83,6 +88,13 @@ const PlaceForm = () => {
                 </Form.Group>
 
                 <CategoriesSelect selectedCategory={selectedCategory} handleCategoryChange={handleCategoryChange} />
+
+                <Form.Group as={Row} controlId="formPrice">
+                    <Form.Label column sm="2">Price</Form.Label>
+                    <Col sm="10">
+                        <Form.Control type="number" className="no-spin-input" name="price" value={price} onChange={handleChange} />
+                    </Col>
+                </Form.Group>
 
                 <h3 className='mt-4'>Dirección</h3>
                 <Form.Group as={Row} controlId="formStreet">
@@ -134,6 +146,13 @@ const PlaceForm = () => {
                     </Col>
                 </Form.Group>
 
+                <Form.Group as={Row} controlId="formZip">
+                    <Form.Label column sm="2">Postal Code</Form.Label>
+                    <Col sm="10">
+                        <Form.Control type="number" className="no-spin-input" name="zip" value={address?.zip} onChange={handleAddressChange} />
+                    </Col>
+                </Form.Group>
+
                 <h3 className='mt-4'>Imágenes</h3>
                 {images?.map((image, index) => (
                     <Form.Group as={Row} controlId={`formImage${index}`} key={index}>
@@ -147,12 +166,27 @@ const PlaceForm = () => {
                 ))}
                 <Button className='mb-3' variant="secondary" onClick={addImageField}>Add Image</Button>
 
+                <h3 className='mt-4'>Redes Sociales</h3>
+                {rrss?.map((social, index) => (
+                    <Form.Group as={Row} controlId={`formRRSS${index}`} key={index}>
+                        <Form.Label column sm="2">RRSS</Form.Label>
+                        <Col className='mb-2' sm="10">
+                            <RRSSSelect />
+                        </Col>
+                        <Form.Label column sm="2">Url</Form.Label>
+                        <Col className='mb-2' sm="10">
+                            <Form.Control type="text" name="url" value={social?.capacity} onChange={(e) => handleRRSSChange(e, index)} />
+                        </Col>
+                    </Form.Group>
+                ))}
+                <Button className='mb-3' variant="secondary" onClick={addRRSSField}>Agregar Red Social</Button>
+
                 <h3 className='mt-4'>Habitaciones</h3>
                 {rooms?.map((room, index) => (
                     <Form.Group as={Row} controlId={`formRoom${index}`} key={index}>
                         <Form.Label column sm="2">Nombre</Form.Label>
                         <Col className='mb-2' sm="10">
-                            <Form.Control type="text" name="name" value={room?.name} onChange={(e) => handleRoomChange(e, index)} />
+                            <Form.Control type="text" name="room" value={room?.name} onChange={(e) => handleRoomChange(e, index)} />
                         </Col>
                         <Form.Label column sm="2">Capacidad</Form.Label>
                         <Col className='mb-2' sm="10">

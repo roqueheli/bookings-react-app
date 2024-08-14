@@ -5,6 +5,7 @@ import { storage } from "../configuration/firebaseConfig.js"; // Asegúrate de i
 const useForm = (initialValues = {}) => {
   const [place, setPlace] = useState(initialValues);
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedRRSS, setSelectedRRSS] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [progress, setProgress] = useState(0);
 
@@ -46,11 +47,26 @@ const useForm = (initialValues = {}) => {
     }));
   };
 
+  const addRRSSField = () => {
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      rrss: [...prevPlace.rrss, { name: "", url: "" }],
+    }));
+  };
+
   const handleRoomChange = (e, index) => {
     const { name, value } = e.target;
     const newRooms = [...place.rooms];
     newRooms[index][name] = value;
     setPlace({ ...place, rooms: newRooms });
+  };
+
+  const handleRRSSChange = (e, index) => {
+    const { name, value } = e.target;
+    const newRRSS = [...place.rrss];
+    newRRSS[index][name] = value;
+    setPlace({ ...place, rrss: newRRSS });
+    setSelectedRRSS(e.target.value);
   };
 
   const handleServiceChange = (e) => {
@@ -78,7 +94,7 @@ const useForm = (initialValues = {}) => {
     setPlace({ ...place, rooms: [...place.rooms, { name: "", capacity: "" }] });
   };
 
-  const handleImageUpload = (e, index) => {   
+  const handleImageUpload = (e, index) => {
     if (!e.target.files[0]) return;
 
     // Crea una referencia al almacenamiento de Firebase
@@ -101,7 +117,10 @@ const useForm = (initialValues = {}) => {
       () => {
         // Obtiene la URL de descarga cuando la subida es exitosa
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          handleImageChange({ target: { name: 'img_url', value: downloadURL } }, index);
+          handleImageChange(
+            { target: { name: "img_url", value: downloadURL } },
+            index
+          );
         });
       }
     );
@@ -126,8 +145,11 @@ const useForm = (initialValues = {}) => {
     handleCategoryChange,
     selectedCategory,
     resetForm,
+    addRRSSField,
+    handleRRSSChange,
     handleImageUpload,
-    progress
+    progress,
+    selectedRRSS
   };
 };
 
