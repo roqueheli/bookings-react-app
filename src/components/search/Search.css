@@ -1,11 +1,6 @@
-.search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 1rem;
+.nav-container {
+  height: 10rem;
 }
-
 .form-control {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;

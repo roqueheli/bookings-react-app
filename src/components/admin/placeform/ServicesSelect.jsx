@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Accordion } from "react-bootstrap";
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../../hooks/useFetch";
 
 const ServicesSelect = ({ selectedServices, handleServiceChange }) => {
   const { data, isLoading, error, fetchData } = useFetch();

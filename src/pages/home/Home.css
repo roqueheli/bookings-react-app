@@ -3,6 +3,7 @@
     grid-template-columns: repeat(5, 1fr); /* 5 columnas */
     gap: 16px; /* Espacio entre las tarjetas */
     padding: 16px;
+    margin-top: 1.5rem;
 }
 
 /* Media queries para hacer el diseño responsivo */
@@ -28,4 +29,11 @@
     .home-container {
         grid-template-columns: 1fr; /* 1 columna para pantallas extra pequeñas */
     }
+}
+
+.pagination-controls {
+    align-items: center;
+    display: flex;
+    justify-content: end;
+    width: 100%;
 }

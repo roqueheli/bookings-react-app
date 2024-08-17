@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../configuration/firebaseConfig.js"; // Asegúrate de importar tu configuración de Firebase
+import { storage } from "../configuration/firebaseConfig.js";
 
 const useForm = (initialValues = {}) => {
   const [place, setPlace] = useState(initialValues);
@@ -8,7 +8,7 @@ const useForm = (initialValues = {}) => {
   const [selectedRRSS, setSelectedRRSS] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [progress, setProgress] = useState(0);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPlace({ ...place, [name]: value });
@@ -50,7 +50,7 @@ const useForm = (initialValues = {}) => {
   const addRRSSField = () => {
     setPlace((prevPlace) => ({
       ...prevPlace,
-      rrss: [...prevPlace.rrss, { name: "", url: "" }],
+      rrss: [...prevPlace.placesRRSSs, { rrss: { rrssId: '' }, rrssUrl: ''}],
     }));
   };
 
@@ -63,10 +63,10 @@ const useForm = (initialValues = {}) => {
 
   const handleRRSSChange = (e, index) => {
     const { name, value } = e.target;
-    const newRRSS = [...place.rrss];
-    newRRSS[index][name] = value;
-    setPlace({ ...place, rrss: newRRSS });
-    setSelectedRRSS(e.target.value);
+    const newRRSS = [...place.placesRRSSs];
+    newRRSS[index][name === 'rrssId' ? 'rrss' : name] = name === 'rrssId' ? { rrssId: value } : value;
+    setPlace({ ...place, placesRRSSs: newRRSS });
+    setSelectedRRSS(value);
   };
 
   const handleServiceChange = (e) => {

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Form } from "react-bootstrap";
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../../hooks/useFetch";
 
-const RRSSSelect = ({ selectedRRSS, handleRRSSChange, addRRSSField }) => {
+const RRSSSelect = ({ selectedRRSS, handleRRSSChange }) => {
   const { data, fetchData } = useFetch();
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const RRSSSelect = ({ selectedRRSS, handleRRSSChange, addRRSSField }) => {
   }, []);
 
   return (
-    <Form.Select value={selectedRRSS} onChange={handleRRSSChange}>
+    <Form.Select value={selectedRRSS} name={'rrssId'} onChange={handleRRSSChange}>
       <option>Seleccione una red social</option>
       {data?.map((rrss) => (
         <option key={rrss?.rrssId} value={rrss?.rrssId}>

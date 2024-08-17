@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Row, Col } from 'react-bootstrap';
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../../hooks/useFetch";
 
 const CategoriesSelect = ({ selectedCategory, handleCategoryChange }) => {
   const { data, fetchData } = useFetch();
