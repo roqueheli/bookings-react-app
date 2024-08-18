@@ -6,7 +6,7 @@ import './PlaceCard.css';
 const PlaceCard = ({ place }) => {
 
   // Formateo de precio
-  const formattedPrice = place?.rooms[0].price.toLocaleString('es-CL', {
+  const formattedPrice = place?.rooms[0]?.price.toLocaleString('es-CL', {
     style: 'currency',
     currency: 'CLP',
     minimumFractionDigits: 0

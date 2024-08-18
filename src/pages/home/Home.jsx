@@ -42,7 +42,7 @@ const Home = () => {
           </div>
           {/* Pagination controls */}
           <div className="pagination-controls">
-            <Button className="m-3"
+            <Button className="m-2"
               variant="secondary"
               disabled={currentPage === 1}
               onClick={() => paginate(currentPage - 1)}>
@@ -51,7 +51,7 @@ const Home = () => {
             <span className="page-counter">
               Page {currentPage} of {Math.ceil(data.length / placesPerPage)}
             </span>
-            <Button className="m-3"
+            <Button className="m-2"
               variant="secondary"
               disabled={currentPage === Math.ceil(data.length / placesPerPage)}
               onClick={() => paginate(currentPage + 1)}>

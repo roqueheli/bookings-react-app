@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import RRSSSelect from './RRSSSelect';
 
-const RRSSForm = ({ placesRRSSs, handleRRSSChange, addRRSSField }) => {
+const RRSSForm = ({ placesRRSSs, handleRRSSChange, addRRSSField, selectedRRSS }) => {
   return (
     <>
       <h3 className="mt-4">Redes Sociales</h3>
@@ -12,7 +12,7 @@ const RRSSForm = ({ placesRRSSs, handleRRSSChange, addRRSSField }) => {
             RRSS
           </Form.Label>
           <Col className="mb-2" sm="10">
-            <RRSSSelect handleRRSSChange={(e) => handleRRSSChange(e, index)} />
+            <RRSSSelect index={index} placesRRSSs={placesRRSSs} handleRRSSChange={(e) => handleRRSSChange(e, index)} />
           </Col>
           <Form.Label column sm="2">
             Url

@@ -40,20 +40,6 @@ const useForm = (initialValues = {}) => {
     setPlace((prevPlace) => ({ ...prevPlace, images: newImages }));
   };
 
-  const addImageField = () => {
-    setPlace((prevPlace) => ({
-      ...prevPlace,
-      images: [...prevPlace.images, { img_url: "" }],
-    }));
-  };
-
-  const addRRSSField = () => {
-    setPlace((prevPlace) => ({
-      ...prevPlace,
-      rrss: [...prevPlace.placesRRSSs, { rrss: { rrssId: '' }, rrssUrl: ''}],
-    }));
-  };
-
   const handleRoomChange = (e, index) => {
     const { name, value } = e.target;
     const newRooms = [...place.rooms];
@@ -66,7 +52,11 @@ const useForm = (initialValues = {}) => {
     const newRRSS = [...place.placesRRSSs];
     newRRSS[index][name === 'rrssId' ? 'rrss' : name] = name === 'rrssId' ? { rrssId: value } : value;
     setPlace({ ...place, placesRRSSs: newRRSS });
-    setSelectedRRSS(value);
+    
+    // Mantén el estado de las selecciones de RRSS para cada índice
+    const newSelectedRRSS = Array.isArray(selectedRRSS) ? [...selectedRRSS] : [];
+    newSelectedRRSS[index] = value;
+    setSelectedRRSS(newSelectedRRSS);
   };
 
   const handleServiceChange = (e) => {
@@ -89,11 +79,7 @@ const useForm = (initialValues = {}) => {
       selectedServices.map((service) => service.service.service_id)
     );
   };
-
-  const addRoomField = () => {
-    setPlace({ ...place, rooms: [...place.rooms, { name: "", capacity: "" }] });
-  };
-
+  
   const handleImageUpload = (e, index) => {
     if (!e.target.files[0]) return;
 
@@ -126,6 +112,24 @@ const useForm = (initialValues = {}) => {
     );
   };
 
+  const addImageField = () => {
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      images: [...prevPlace.images, { img_url: "" }],
+    }));
+  };
+
+  const addRRSSField = () => {
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      placesRRSSs: [...prevPlace.placesRRSSs, { rrss: { rrssId: '' }, rrssUrl: ''}],
+    }));
+  };
+
+  const addRoomField = () => {
+    setPlace({ ...place, rooms: [...place.rooms, { name: "", capacity: "" }] });
+  };
+
   const resetForm = () => {
     setPlace(initialValues);
     setSelectedServices([]);
@@ -149,7 +153,9 @@ const useForm = (initialValues = {}) => {
     handleRRSSChange,
     handleImageUpload,
     progress,
-    selectedRRSS
+    selectedRRSS,
+    setSelectedCategory,
+    setSelectedRRSS
   };
 };
 

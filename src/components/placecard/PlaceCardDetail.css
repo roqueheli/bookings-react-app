@@ -24,3 +24,17 @@
 .thumbnail-image:hover {
   border-color: #007bff;
 }
+
+.book-button {
+  flex-shrink: 0; /* Evita que el botón se reduzca en tamaño */
+  background-color: #3dd9eb !important;
+  border-color: #3dd9eb !important;
+  color: #f55376 !important;
+  transition: 0.5s all ease;
+}
+
+.book-button:hover {
+  color: #3dd9eb !important;
+  border-color: #f55376 !important;
+  background-color: #f55376 !important;
+}

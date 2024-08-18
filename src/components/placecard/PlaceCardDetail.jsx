@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {Card, Container, Row, Col, ListGroup, Button, Image, Carousel, } from "react-bootstrap";
 import useFetch from "../../hooks/useFetch";
 import Loader from "../loader/Loader";
+import './PlaceCardDetail.css';
 
 const PlaceCardDetail = () => {
   const { id } = useParams();
@@ -78,8 +79,8 @@ const PlaceCardDetail = () => {
                 <ListGroup.Item>Price: ${data.rooms[0].price}/night</ListGroup.Item>
               </ListGroup>
               <Col md={4} className="d-flex justify-content-between" style={{width: "100%"}}>
-                <Button variant="primary" className="mt-3">
-                  Book Now
+                <Button variant="primary" className="mt-3 book-button">
+                  Reserva ahora
                 </Button>
                 <Button variant="secondary" className="mt-3" onClick={() => navigate(-1)}>
                   Volver
