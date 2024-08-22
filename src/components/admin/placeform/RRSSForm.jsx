@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import RRSSSelect from './RRSSSelect';
 
-const RRSSForm = ({ placesRRSSs, handleRRSSChange, addRRSSField, selectedRRSS }) => {
+const RRSSForm = ({ placesRRSSs, handleRRSSChange, addRRSSField }) => {
   return (
     <>
       <h3 className="mt-4">Redes Sociales</h3>

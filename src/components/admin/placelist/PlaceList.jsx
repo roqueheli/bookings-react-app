@@ -43,6 +43,13 @@ const PlaceList = () => {
     navigate("/admin/add-place");
   };
 
+  const handlePlaceUpdated = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    fetchData(`${import.meta.env.VITE_BASE_URL}/places/all`, "GET"); // Refrescar la lista de lugares
+    
+    handleFormClose(); // Cerrar el formulario
+  };
+
   return (
     <>
       <Container style={{ height: "85vh" }}>
@@ -110,7 +117,7 @@ const PlaceList = () => {
           <Button variant="danger" onClick={confirmDelete}>Sí, eliminar</Button>
         </Modal.Footer>
       </Modal>
-      {showForm && (
+      {(showForm && !isLoading) && (
         <Modal show={showForm} onHide={handleFormClose} size="lg">
           <Modal.Header closeButton>
             <Modal.Title>{selectedPlace?.place_id ? 'Modificar Lugar' : 'Agregar Nuevo Lugar'}</Modal.Title>
@@ -118,14 +125,9 @@ const PlaceList = () => {
           <Modal.Body>
             <PlaceForm
               place={selectedPlace}
-              onClose={handleFormClose}
-              onSubmit={(updatedPlace) => {
-                // Lógica para actualizar el lugar (PUT request)
-                console.log("Lugar actualizado:", updatedPlace);
-                handleFormClose();
-              }}
+              handleFormClose={handleFormClose}
               isEditMode={true}
-            />
+              onPlaceUpdated={handlePlaceUpdated} />
           </Modal.Body>
         </Modal>
       )}

@@ -15,8 +15,10 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="street"
             value={address?.street}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formStreetNum">
@@ -26,11 +28,13 @@ const AddressForm = ({ address, handleAddressChange }) => {
         <Col sm="10">
           <Form.Control
             type="text"
-            name="street_num"
-            value={address?.street_num}
+            name="streetNum"
+            value={address?.streetNum}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formDepartment">
@@ -43,8 +47,10 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="department"
             value={address?.department}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formComune">
@@ -57,8 +63,10 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="comune"
             value={address?.comune}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formRegion">
@@ -71,8 +79,10 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="region"
             value={address?.region}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formCity">
@@ -85,8 +95,10 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="city"
             value={address?.city}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formCountry">
@@ -99,13 +111,15 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="country"
             value={address?.country}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formZip">
         <Form.Label column sm="2">
-          Postal Code
+          Código Postal
         </Form.Label>
         <Col sm="10">
           <Form.Control
@@ -114,8 +128,10 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="zip"
             value={address?.zip}
             onChange={handleAddressChange}
+            required
           />
         </Col>
+        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
     </>
   );

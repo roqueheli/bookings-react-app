@@ -1,39 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
-import './PlaceCard.css';
+import SkeletonPlaceCard from "./SkeletonPlaceCard";
+import "./PlaceCard.css";
 
 const PlaceCard = ({ place }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   // Formateo de precio
-  const formattedPrice = place?.rooms[0]?.price.toLocaleString('es-CL', {
-    style: 'currency',
-    currency: 'CLP',
-    minimumFractionDigits: 0
+  const formattedPrice = place?.rooms[0]?.price.toLocaleString("es-CL", {
+    style: "currency",
+    currency: "CLP",
+    minimumFractionDigits: 0,
   });
+  
+  // Efecto para manejar el retraso de 500 ms antes de mostrar la PlaceCard
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        setShowSkeleton(false);
+        console.log("Cambiando showSkeleton a false");
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <Link to={`/place/${place?.place_id}`} style={{ textDecoration: 'none' }}>
-      <Card className="mb-4 shadow-sm" style={{ cursor: 'pointer' }}>
+    showSkeleton ? <SkeletonPlaceCard /> :
+    <Link to={`/place/${place?.place_id}`} style={{ textDecoration: "none" }}>
+      <Card
+        className="mb-4 shadow-sm place-card"
+        style={{ cursor: "pointer", height: "100%" }}>
         <Card.Img
           variant="top"
-          src={place.images[0]?.img_url}
+          src={`${place.images[0]?.img_url}?t=${new Date().getTime()}`}
           alt={place.name}
-          className="card-image" />
-        <Card.Body>
-          <Card.Title>{place?.name}</Card.Title>
-          <Card.Text>{place?.description}</Card.Text>
+          className="card-image"
+          style={{ height: "200px", objectFit: "cover" }} />
+        <Card.Body className="d-flex flex-column">
+          <Card.Title
+            className="mb-2"
+            style={{ fontSize: "1.25rem", height: "3rem", overflow: "hidden" }}>
+            {place?.name}
+          </Card.Title>
           <div className="d-flex justify-content-between align-items-center">
-            <div>
-              <small className="text-muted">{place?.location}</small>
-            </div>
-            <div>
-              <small className="text-muted">Rating: {place?.rating}</small>
-            </div>
+            <small className="text-muted">{place?.location}</small>
+            <small className="text-muted">Rating: {place?.rating}</small>
           </div>
-          <div className="d-flex justify-content-between align-items-center mt-3">
+          <div className="d-flex justify-content-between align-items-center mt-auto">
             <small className="price-text"><b>{formattedPrice}</b>/noche</small>
-            <Button className="btn-sm" variant="primary">Reserva</Button>
+            <Button className="btn-sm" variant="primary">
+              Reserva
+            </Button>
           </div>
         </Card.Body>
       </Card>

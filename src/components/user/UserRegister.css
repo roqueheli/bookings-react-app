@@ -1,0 +1,30 @@
+.password-strength-bar {
+  height: 8px;
+  border-radius: 4px;
+  background-color: lightgray; /* Color de fondo de la barra */
+  position: relative;
+  width: 50%;
+  margin-top: 1rem;
+}
+
+.password-strength-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.password-strength-very-weak {
+  background: linear-gradient(to right, red 0%, orange 100%);
+}
+
+.password-strength-weak {
+  background: linear-gradient(to right, orange 0%, yellow 100%);
+}
+
+.password-strength-moderate {
+  background: linear-gradient(to right, yellow 0%, lightgreen 100%);
+}
+
+.password-strength-strong {
+  background: linear-gradient(to right, lightgreen 0%, green 100%);
+}
