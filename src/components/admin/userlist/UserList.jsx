@@ -3,49 +3,51 @@ import { Table, Button, Container, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
 import Loader from "../../loader/Loader";
-import PlaceForm from "../placeform/PlaceForm";
-import "./PlaceList.css";
+import UserRegister from "../../user/UserRegister";
+import { useAuth } from "../../../context/AuthContext";
+import "./UserList.css";
 
-const PlaceList = () => {
+const UserList = () => {
   const { data, isLoading, fetchData } = useFetch();
   const [show, setShow] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState(null);
+  const { authToken } = useAuth();
+  const [selectedUser, setSelectedUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(`${import.meta.env.VITE_BASE_URL}/places/all`, "GET");
-  }, []);
+    fetchData(`${import.meta.env.VITE_BASE_URL}/users/all`, "GET", null, authToken);
+  }, [authToken]);
 
   const handleClose = () => setShow(false);
 
-  const handleShow = (placeId) => {
-    setSelectedPlace(placeId);
+  const handleShow = (userId) => {
+    setSelectedUser(userId);
     setShow(true);
   };
 
   const confirmDelete = () => {
-    onDelete(selectedPlace.id);
+    onDelete(selectedUser.id);
     handleClose();
   };
 
-  const handleEdit = (place) => {
-    setSelectedPlace(place);
+  const handleEdit = (user) => {
+    setSelectedUser(user);
     setShowForm(true);
   };
 
   const handleFormClose = () => {
     setShowForm(false);
-    setSelectedPlace(null);
+    setSelectedUser(null);
   };
 
   const handleAddNew = () => {
-    navigate("/admin/add-place");
+    navigate("/admin/add-user");
   };
 
-  const handlePlaceUpdated = () => {
+  const handleUserUpdated = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    fetchData(`${import.meta.env.VITE_BASE_URL}/places/all`, "GET"); // Refrescar la lista de lugares
+    fetchData(`${import.meta.env.VITE_BASE_URL}/users/all`, "GET"); // Refrescar la lista de lugares
     
     handleFormClose(); // Cerrar el formulario
   };
@@ -53,12 +55,12 @@ const PlaceList = () => {
   return (
     <>
       <Container style={{ height: "85vh" }}>
-        <h2 className="my-4">Lista de Lugares</h2>
+        <h2 className="my-4">Lista de Usuarios</h2>
         <Button
           variant="primary"
-          className="mb-3 placelist-btn"
+          className="mb-3 userlist-btn"
           onClick={handleAddNew}>
-          Agregar Nuevo Lugar
+          Agregar nuevo usuario
         </Button>
         {isLoading ? (
           <Loader />
@@ -74,22 +76,22 @@ const PlaceList = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((place) => (
-                <tr key={place.place_id}>
-                  <td>{place.place_id}</td>
-                  <td>{place.name}</td>
-                  <td>{place.location}</td>
-                  <td>{place.calification}</td>
+              {data?.map((user) => (
+                <tr key={user.user_id}>
+                  <td>{user.user_id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.location}</td>
+                  <td>{user.calification}</td>
                   <td>
                     <Button
                       variant="warning"
                       className="me-2"
-                      onClick={() => handleEdit(place)}>
+                      onClick={() => handleEdit(user)}>
                       Modificar
                     </Button>
                     <Button
                       variant="danger"
-                      onClick={() => handleShow(place.place_id)}>
+                      onClick={() => handleShow(user.user_id)}>
                       Eliminar
                     </Button>
                   </td>
@@ -119,14 +121,14 @@ const PlaceList = () => {
       {(showForm && !isLoading) && (
         <Modal show={showForm} onHide={handleFormClose} size="lg">
           <Modal.Header closeButton>
-            <Modal.Title>{selectedPlace?.place_id ? 'Modificar Lugar' : 'Agregar Nuevo Lugar'}</Modal.Title>
+            <Modal.Title>{selectedUser?.user_id ? 'Modificar Lugar' : 'Agregar Nuevo Lugar'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <PlaceForm
-              place={selectedPlace}
+            <UserRegister
+              user={selectedUser}
               handleFormClose={handleFormClose}
               isEditMode={true}
-              onPlaceUpdated={handlePlaceUpdated} />
+              onUserUpdated={handleUserUpdated} />
           </Modal.Body>
         </Modal>
       )}
@@ -134,4 +136,4 @@ const PlaceList = () => {
   );
 };
 
-export default PlaceList;
+export default UserList;

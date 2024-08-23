@@ -5,7 +5,6 @@ import SkeletonPlaceCard from "./SkeletonPlaceCard";
 import "./PlaceCard.css";
 
 const PlaceCard = ({ place }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
 
   // Formateo de precio
@@ -15,11 +14,9 @@ const PlaceCard = ({ place }) => {
     minimumFractionDigits: 0,
   });
   
-  // Efecto para manejar el retraso de 500 ms antes de mostrar la PlaceCard
   useEffect(() => {
     const timer = setTimeout(() => {
         setShowSkeleton(false);
-        console.log("Cambiando showSkeleton a false");
     }, 1000);
     return () => clearTimeout(timer);
   }, []);

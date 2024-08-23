@@ -2,6 +2,7 @@ import React from "react";
 import { isMobile } from "react-device-detect";
 import { Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
 
 const WebOnlyMessage = () => {
     return (
@@ -29,12 +30,13 @@ const LoginIsNeeded = () => {
 
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn } = useAuth();
+  const location = useLocation();
 
   if (isMobile) {
     return <WebOnlyMessage />;
   }
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn && location.pathname !== '/admin/user/login') {
     return <LoginIsNeeded />
   }
 

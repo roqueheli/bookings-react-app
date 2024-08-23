@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <>
       <Search />
-      {(data === null || data.length === 0) && isLoading === false ? (
+      {(data === null || data?.length === 0) && isLoading === false ? (
         <NoResults />
       ) : isLoading ? (
         <Loader />

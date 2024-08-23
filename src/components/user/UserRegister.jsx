@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Container, InputGroup, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AddressForm from "../admin/placeform/AddressForm";
-import useFetch from "../../hooks/useFetch";
 import useForm from "../../hooks/useForm";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import './UserRegister.css';
 import { useAuth } from "../../context/AuthContext";
+import './UserRegister.css';
 
 const initialValues = {
   name: "",
@@ -33,11 +32,11 @@ const UserRegister = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
   const [ showSuccess, setShowSuccess ] = useState(false);
-  const [registerSuccess, setRegisterSuccess] = useState(false)
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordLength, setPasswordLength] = useState(0);
-  const [passwordStrength, setPasswordStrength] = useState(0);
-  const [showText, setShowText] = useState({ text: "", variant: ""});
+  const [ registerSuccess, setRegisterSuccess ] = useState(null)
+  const [ passwordVisible, setPasswordVisible ] = useState(false);
+  const [ passwordLength, setPasswordLength ] = useState(0);
+  const [ passwordStrength, setPasswordStrength ] = useState(0);
+  const [ showText, setShowText ] = useState({ text: "", variant: ""});
   const {
     name,
     document,
@@ -53,16 +52,17 @@ const UserRegister = () => {
   } = useForm(initialValues);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    if (registerSuccess) {
-      setShowText({ text: `Usuario creado exitosamente.`, variant: "success"});
-      setShowSuccess(true);
-      resetForm();
-    } else {
-      setShowText({ text: `Usuario no creado.`, variant: "danger"});
+    if (registerSuccess !== null) { // Solo mostrar mensajes si se ha intentado registrar
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (registerSuccess) {
+        setShowText({ text: `Usuario creado exitosamente.`, variant: "success" });
+        resetForm();
+      } else {
+        setShowText({ text: `Usuario no creado.`, variant: "danger" });
+      }
       setShowSuccess(true);
     }
-  }, [registerSuccess]);
+  }, [registerSuccess, resetForm]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,10 +81,20 @@ const UserRegister = () => {
       return;
     }
 
-    const result = await register(email, password);
+    if(passwordStrength < 2 || password.length < 8) {
+      if(passwordStrength < 2) {
+        setShowText({ text: `La contraseña debe incluir al menos un caracter especial.`, variant: "danger"});
+      } else if (password.length < 8) {
+        setShowText({ text: `La longitud mínima para contraseñas es de 8 carácateres.`, variant: "danger"});
+      }
+      setShowSuccess(true);
+      return;
+    }
+
+    const result = await register({ name, document, email, phone, password, address, userType });
     if (result.success) {
       setRegisterSuccess(true);
-      history.push('/'); 
+      navigate("/");
     }
   };
 
@@ -125,7 +135,7 @@ const UserRegister = () => {
             </Alert>
           )}
           <Form onSubmit={handleSubmit} noValidate>
-              <Form.Group controlId="formName">
+              <Form.Group controlId="formName" className="mt-3">
                 <Form.Label>Nombre</Form.Label>
                 <Form.Control
                     type="text"
@@ -137,7 +147,7 @@ const UserRegister = () => {
                 <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formDocument">
+              <Form.Group controlId="formDocument" className="mt-3">
               <Form.Label>Documento</Form.Label>
                 <Form.Control
                     type="text"
@@ -149,7 +159,7 @@ const UserRegister = () => {
                 <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formEmail">
+              <Form.Group controlId="formEmail" className="mt-3">
               <Form.Label>Email</Form.Label>
                 <Form.Control
                     type="email"
@@ -161,7 +171,7 @@ const UserRegister = () => {
                 <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
               </Form.Group>
 
-              <Form.Group controlId="formPassword">
+              <Form.Group controlId="formPassword" className="mt-3">
                 <Form.Label>Contraseña</Form.Label>
                 <InputGroup>
                   <Form.Control
@@ -177,17 +187,19 @@ const UserRegister = () => {
                 </InputGroup>
                 <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
                 <Form.Text className="text-muted">
-                  <div className="password-strength-bar">
-                    <div
-                      className={`password-strength-fill ${strengthClass}`}
-                      style={{ width: `${percentage}%` }} // Ajusta el ancho según la longitud y fuerza
-                    />
-                  </div>
+                  {password.length > 0 &&                  
+                    <div className="password-strength-bar">
+                      <div
+                        className={`password-strength-fill ${strengthClass}`}
+                        style={{ width: `${percentage}%` }} // Ajusta el ancho según la longitud y fuerza
+                      />
+                    </div>
+                  }
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group controlId="formConfirmPassword">
-                <Form.Label>Confirmar Contraseña</Form.Label>
+              <Form.Group controlId="formConfirmPassword" className="mt-3">
+                <Form.Label>Confirmar contraseña</Form.Label>
                 <Form.Control
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Confirma tu contraseña"
@@ -197,7 +209,7 @@ const UserRegister = () => {
                   required />
               </Form.Group>
 
-              <Form.Group controlId="formPhone">
+              <Form.Group controlId="formPhone" className="mt-3">
               <Form.Label>Teléfono</Form.Label>
                 <Form.Control
                     type="text"

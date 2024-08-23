@@ -47,10 +47,8 @@ const AddressForm = ({ address, handleAddressChange }) => {
             name="department"
             value={address?.department}
             onChange={handleAddressChange}
-            required
           />
         </Col>
-        <Form.Control.Feedback type="invalid">Este campo es obligatorio.</Form.Control.Feedback>
       </Form.Group>
 
       <Form.Group as={Row} controlId="formComune">

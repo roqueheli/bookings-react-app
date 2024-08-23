@@ -11,13 +11,21 @@ const useFetch = () => {
   const { data, isLoading, error, status } = state;
 
   const fetchData = async (url, method, bodyData = null) => {    
-    if (!url) return;
+    if (!url) return { data: null, status: null, error: 'URL missing' };
+
+    const headers = {
+      "Content-type": "application/json; charset=UTF-8",
+    };
+    
+    // Agregar el token al encabezado si está presente
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
     try {
       const options = {
         method: method,
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+        headers: headers,
         body:
           method == "GET" || method == "DELETE"
             ? null
@@ -25,14 +33,19 @@ const useFetch = () => {
       };
       
       const res = await fetch(url, options);
-      if(res.ok){
-        const data = await res.json();
-        setState({ data, isLoading: false, error: null, status: res.status });
-      } else {
-        setState({ data: null, isLoading: false, error: res.message, status: res.status });
-      }
+      const resultData = res.ok ? await res.json() : null;
+      const resultStatus = res.status;
+
+      setState({
+        data: resultData,
+        isLoading: false,
+        error: res.ok ? null : res.statusText,
+        status: resultStatus,
+      });
+      
+      return { data: resultData, status: resultStatus, error: res.ok ? null : res.statusText };
     } catch (error) {
-      console.log(error);
+      return { data: null, status: null, error: error.message };
     }
   };
 

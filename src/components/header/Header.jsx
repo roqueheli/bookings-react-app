@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { FaSignOutAlt } from "react-icons/fa";
 import './Header.css';
 
 const Header = () => {
@@ -21,18 +22,31 @@ const Header = () => {
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           {isLoggedIn ? (
             <div className="d-flex align-items-center">
-              <span className="navbar-text me-3">¡Hola, {userName}!</span>
-              <button onClick={logout} className="btn btn-outline-danger btn-md header-button">Cerrar sesión</button>
+              <div className="dropdown">
+                <button className="btn dropdown-toggle header-button responsive-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  ¡Hola, {userName}!
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  <li><Link className="dropdown-item" to="/reservations">Reservas anteriores</Link></li>
+                  <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li>
+                    <button onClick={logout} className="dropdown-item">
+                      Cerrar sesión <FaSignOutAlt />
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
             <>
               {(isLoggedIn || location.pathname !== '/admin') && (
-                <div className="d-grid gap-1 col-4">
+                <div className="d-grid gap-2 col-4">
                   <Link to={'/user/register'} className="btn btn-outline-info btn-md header-button" type="button">Crear cuenta</Link>
                 </div>
               )}
               <div className="d-grid gap-2 col-4">
-                  <Link  to={'/user/login'} className="btn btn-outline-info btn-md header-button" type="button">Iniciar sesión</Link>
+                  <Link to={location.pathname === '/admin' ? '/admin/user/login' : '/user/login'} className="btn btn-outline-info btn-md header-button" type="button">Iniciar sesión</Link>
               </div>
             </>
           )
