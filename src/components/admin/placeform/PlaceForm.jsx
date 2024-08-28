@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { useAuth } from '../../../context/AuthContext';
 import useForm from '../../../hooks/useForm';
 import useFetch from '../../../hooks/useFetch';
 import CategoriesSelect from './CategoriesSelect';
@@ -15,6 +16,7 @@ import './PlaceForm.css';
 
 
 const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated }) => {
+    const { user } = useAuth();
     const [isModified, setIsModified] = useState(false);
     const [initialData, setInitialData] = useState(null);
     const initialValues = {
@@ -108,7 +110,6 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
             setSelectedRRSS({ target: { value: place.placesRRSSs.map((r) => r.rrss.rrssId) }, });
         }
     }, [place]);
-
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -126,7 +127,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
             ? `${import.meta.env.VITE_BASE_URL}/places/update` 
             : `${import.meta.env.VITE_BASE_URL}/places/save`;
         
-        await fetchData(url, method, { place_id, name, phone, email, category, calification, address, placesRRSSs, images, rooms, placeServices });
+        await fetchData(url, method, { place_id, name, phone, email, category, calification, address, placesRRSSs, images, rooms, placeServices }, user.token);
     };
 
     return (

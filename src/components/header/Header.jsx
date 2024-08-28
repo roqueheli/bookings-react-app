@@ -2,10 +2,11 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { FaSignOutAlt } from "react-icons/fa";
+import TokenTimer from "../tokentimer/TokenTimer";
 import './Header.css';
 
 const Header = () => {
-  const { isLoggedIn, userName, logout } = useAuth();
+  const { isLoggedIn, user, logout } = useAuth();
   const location = useLocation();
 
   return (
@@ -22,9 +23,10 @@ const Header = () => {
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           {isLoggedIn ? (
             <div className="d-flex align-items-center">
+              <TokenTimer />
               <div className="dropdown">
                 <button className="btn dropdown-toggle header-button responsive-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                  ¡Hola, {userName}!
+                  ¡Hola, {user.name}!
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                   <li><Link className="dropdown-item" to="/reservations">Reservas anteriores</Link></li>
@@ -40,14 +42,16 @@ const Header = () => {
             </div>
           ) : (
             <>
-              {(isLoggedIn || location.pathname !== '/admin') && (
+              {(location.pathname === '/') && (
                 <div className="d-grid gap-2 col-4">
                   <Link to={'/user/register'} className="btn btn-outline-info btn-md header-button" type="button">Crear cuenta</Link>
                 </div>
               )}
-              <div className="d-grid gap-2 col-4">
-                  <Link to={location.pathname === '/admin' ? '/admin/user/login' : '/user/login'} className="btn btn-outline-info btn-md header-button" type="button">Iniciar sesión</Link>
-              </div>
+              {((!location.pathname.includes('/login') && !location.pathname.includes('/register'))) && (
+                <div className="d-grid gap-2 col-4">
+                    <Link to={location.pathname.includes('/admin') ? '/admin/user/login' : '/user/login'} className="btn btn-outline-info btn-md header-button" type="button">Iniciar sesión</Link>
+                </div>
+              )}
             </>
           )
           }

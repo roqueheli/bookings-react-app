@@ -39,7 +39,7 @@ const AddressForm = ({ address, handleAddressChange }) => {
 
       <Form.Group as={Row} controlId="formDepartment">
         <Form.Label column sm="2">
-          Departamento
+          Depto.
         </Form.Label>
         <Col sm="10">
           <Form.Control

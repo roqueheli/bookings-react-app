@@ -39,9 +39,9 @@ const Login = () => {
     setIsLoading(false);
 
     if (result.success) {
-      setLoginSuccess(true);
+      setLoginSuccess(true);      
       if (location.pathname === '/admin/user/login') {
-        navigate('/admin');  
+        navigate('/admin');
       } else {
         navigate('/');
       }
@@ -56,10 +56,11 @@ const Login = () => {
   return (
     <>
         <h2 style={{ marginLeft: "1rem", padding: ".5rem", color: "#F55376" }}>Iniciar sesión</h2>
+        <Container style={{ height: "73vh", maxWidth: "600px", marginBottom: "1.5rem" }}>
         {isLoading ? (
           <Loader />
         ) : (
-          <Container style={{ height: "73vh", maxWidth: "600px", marginBottom: "1.5rem" }}>
+          <>
             {showSuccess && (
               <Alert variant={showText.variant} onClose={() => setShowSuccess(false)} dismissible>
                   {showText.text}
@@ -93,8 +94,9 @@ const Login = () => {
                 <Button onClick={() => navigate(-1)} className="btn btn-secondary bnt-md">Volver</Button>
                 </Form.Group>
             </Form>
-          </Container>
+          </>
         )}
+        </Container>
     </>
   );
 };

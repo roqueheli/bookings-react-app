@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 const WebOnlyMessage = () => {
     return (
-      <Container style={{ height: '86vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Container style={{ height: '84vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Row>
           <Col className="text-center">
             <h2>Este contenido solo está disponible en la web o tablet.</h2>
@@ -18,7 +18,7 @@ const WebOnlyMessage = () => {
 
 const LoginIsNeeded = () => {
   return (
-    <Container style={{ height: '86vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <Container style={{ height: '84vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Row>
         <Col className="text-center">
           <h2>Es necesario estar logueado para acceder a las funciones.</h2>

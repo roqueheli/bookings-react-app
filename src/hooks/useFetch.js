@@ -10,7 +10,7 @@ const useFetch = () => {
 
   const { data, isLoading, error, status } = state;
 
-  const fetchData = async (url, method, bodyData = null) => {    
+  const fetchData = async (url, method, bodyData = null, token = null) => {    
     if (!url) return { data: null, status: null, error: 'URL missing' };
 
     const headers = {

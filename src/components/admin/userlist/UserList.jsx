@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Container, Modal } from "react-bootstrap";
+import { Table, Button, Container, Modal, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 import useFetch from "../../../hooks/useFetch";
 import Loader from "../../loader/Loader";
-import UserRegister from "../../user/UserRegister";
-import { useAuth } from "../../../context/AuthContext";
+import NoResults from "../../noresults/NoResults";
 import "./UserList.css";
+import UserRegister from "../../user/UserRegister";
 
 const UserList = () => {
   const { data, isLoading, fetchData } = useFetch();
-  const [show, setShow] = useState(false);
-  const { authToken } = useAuth();
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [ show, setShow ] = useState(false);
+  const { user } = useAuth();
+  const [ selectedUser, setSelectedUser ] = useState(null);
+  const [ showForm, setShowForm ] = useState(false);
+  const [ searchTerm, setSearchTerm ] = useState("");
   const navigate = useNavigate();
-
+  
   useEffect(() => {
-    fetchData(`${import.meta.env.VITE_BASE_URL}/users/all`, "GET", null, authToken);
-  }, [authToken]);
+    fetchData(`${import.meta.env.VITE_BASE_URL}/users/byowner/${user.id}`, "GET", null, user.token);
+  }, [user.token]);
 
   const handleClose = () => setShow(false);
 
@@ -42,46 +44,65 @@ const UserList = () => {
   };
 
   const handleAddNew = () => {
-    navigate("/admin/add-user");
+    navigate("/admin/add-users");
   };
 
   const handleUserUpdated = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    fetchData(`${import.meta.env.VITE_BASE_URL}/users/all`, "GET"); // Refrescar la lista de lugares
+    fetchData(`${import.meta.env.VITE_BASE_URL}/users/byowner/${user.id}`, "GET", null, user.token);
     
     handleFormClose(); // Cerrar el formulario
   };
 
+  const filteredUsers = data?.filter((user) => {
+    return (
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.document.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.phone.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return (
     <>
-      <Container style={{ height: "85vh" }}>
-        <h2 className="my-4">Lista de Usuarios</h2>
-        <Button
-          variant="primary"
-          className="mb-3 userlist-btn"
-          onClick={handleAddNew}>
-          Agregar nuevo usuario
-        </Button>
+      <Container style={{ height: "73vh" }}>
+        <h2 className="my-4">Lista de usuarios</h2>
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <Button
+            variant="primary" className="mb-3 userlist-btn" onClick={handleAddNew}>
+            Agregar nuevo usuario
+          </Button>
+          <Form.Control
+            type="text"
+            placeholder="Buscar por nombre, documento, email o phone"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="mb-3 search-field" />
+        </div>
         {isLoading ? (
           <Loader />
+        ) : !filteredUsers || filteredUsers.length === 0 ? (
+          <NoResults />
         ) : (
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Ubicación</th>
-                <th>Calificación</th>
+                <th>Documento</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {data?.map((user) => (
+              {filteredUsers?.map((user) => (
                 <tr key={user.user_id}>
                   <td>{user.user_id}</td>
                   <td>{user.name}</td>
-                  <td>{user.location}</td>
-                  <td>{user.calification}</td>
+                  <td>{user.document}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
                   <td>
                     <Button
                       variant="warning"
@@ -119,13 +140,14 @@ const UserList = () => {
         </Modal.Footer>
       </Modal>
       {(showForm && !isLoading) && (
-        <Modal show={showForm} onHide={handleFormClose} size="lg">
+        <Modal show={showForm} onHide={handleFormClose} size="xl">
           <Modal.Header closeButton>
-            <Modal.Title>{selectedUser?.user_id ? 'Modificar Lugar' : 'Agregar Nuevo Lugar'}</Modal.Title>
+            <Modal.Title>{selectedUser?.user_id ? 'Modificar usuario' : 'Agregar nuevo usuario'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <UserRegister
-              user={selectedUser}
+              userUpdated={{...selectedUser, token: user.token}}
+              owner={user.id}
               handleFormClose={handleFormClose}
               isEditMode={true}
               onUserUpdated={handleUserUpdated} />
