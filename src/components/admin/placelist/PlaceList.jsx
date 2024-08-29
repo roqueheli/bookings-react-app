@@ -17,7 +17,7 @@ const PlaceList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(`${import.meta.env.VITE_BASE_URL}/places/byowner/${user.id}`, "GET", null, user.token);
+    fetchData(`${import.meta.env.VITE_BASE_URL}/user-places/user/${user.id}`, "GET", null, user.token);
   }, [user.token]);
 
   const handleClose = () => setShow(false);
@@ -55,9 +55,9 @@ const PlaceList = () => {
 
   const filteredPlaces = data?.filter((place) => {
     return (
-      place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      place.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      place.phone.toLowerCase().includes(searchTerm.toLowerCase())
+      place?.place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place?.place.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place?.place.phone.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -91,21 +91,21 @@ const PlaceList = () => {
             </thead>
             <tbody>
               {filteredPlaces?.map((place) => (
-                <tr key={place.place_id}>
-                  <td>{place.place_id}</td>
-                  <td>{place.name}</td>
-                  <td>{place.location}</td>
-                  <td>{place.calification}</td>
+                <tr key={place.place.place_id}>
+                  <td>{place.place.place_id}</td>
+                  <td>{place.place.name}</td>
+                  <td>{place.place.location}</td>
+                  <td>{place.place.calification}</td>
                   <td>
                     <Button
                       variant="warning"
                       className="me-2"
-                      onClick={() => handleEdit(place)}>
+                      onClick={() => handleEdit(place.place)}>
                       Modificar
                     </Button>
                     <Button
                       variant="danger"
-                      onClick={() => handleShow(place.place_id)}>
+                      onClick={() => handleShow(place.place.place_id)}>
                       Eliminar
                     </Button>
                   </td>

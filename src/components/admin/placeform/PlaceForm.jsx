@@ -26,6 +26,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
         email: place?.email || '',
         location: place?.location || '',
         calification: place?.calification || 0.0,
+        userCreationId: place?.userCreationId || user.user_id,
         category: place?.category || { category_id: '', name: '' },
         address: place?.address || {
             street: '',
@@ -43,7 +44,6 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
         rooms: place?.rooms || [{ name: '', capacity: '' }],
         placeServices: place?.placeServices || [{ service: { service_id: '', name: '' } }]
     };
-
     const {
       place_id,
       name,
@@ -51,6 +51,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
       email,
       category,
       calification,
+      userCreationId,
       address,
       location,
       placesRRSSs,
@@ -115,7 +116,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
         // Verificar si hay modificaciones antes de enviar el formulario
-        if (initialData && JSON.stringify({ place_id, name, phone, email, location, calification, address, category, placesRRSSs, images, rooms, placeServices }) === JSON.stringify(initialData)) {
+        if (initialData && JSON.stringify({ place_id, name, phone, email, location, calification, userCreationId, address, category, placesRRSSs, images, rooms, placeServices }) === JSON.stringify(initialData)) {
             setIsModified(true);
             setShowSuccess(true);
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -127,7 +128,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
             ? `${import.meta.env.VITE_BASE_URL}/places/update` 
             : `${import.meta.env.VITE_BASE_URL}/places/save`;
         
-        await fetchData(url, method, { place_id, name, phone, email, category, calification, address, placesRRSSs, images, rooms, placeServices }, user.token);
+        await fetchData(url, method, { place_id, name, phone, email, category, calification, userCreationId, address, placesRRSSs, images, rooms, placeServices }, user.token);
     };
 
     return (

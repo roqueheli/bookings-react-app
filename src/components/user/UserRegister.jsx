@@ -106,6 +106,19 @@ const UserRegister = ({ userUpdated, owner, handleFormClose }) => {
       return;
     }
     
+    console.log({
+      ...(userUpdated ? { user_id } : { }),
+      name,
+      document,
+      email,
+      phone,
+      ...(userUpdated ? {} : { password }),
+      address,
+      userType,
+      owner: { user_id: owner || null },
+      userPlaces
+    });
+    
     const result = await register({
       ...(userUpdated ? { user_id } : { }),
       name,

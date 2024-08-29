@@ -31,10 +31,13 @@ const useForm = (initialValues = {}) => {
     });
   };
 
-  const handlePlacesChange = (selectedOptions) => {    
+  const handlePlacesChange = (selectedOptions) => {
     const selectedPlaces = selectedOptions.map(option => ({
-      userPlaces: {
+      place: {
         place_id: option,
+      },
+      user: { 
+        user_id: initialValues?.user_id
       },
     }));
   
@@ -192,7 +195,8 @@ const useForm = (initialValues = {}) => {
     setSelectedServices,
     handleRegisterChange,
     handlePlacesChange,
-    selectedPlaces
+    selectedPlaces,
+    formData
   };
 };
 

@@ -19,11 +19,11 @@ const ImagesForm = ({ images, progress, handleImageChange, handleImageUpload, ad
               onChange={(e) => handleImageChange(e, index)}
               readOnly
             />
-            <Form.Control
+            {/* <Form.Control
               type="file"
               onChange={(e) => handleImageUpload(e, index)}
             />
-            {progress > 0 && progress < 100 && <p>Progreso: {progress}%</p>}
+            {progress > 0 && progress < 100 && <p>Progreso: {progress}%</p>} */}
           </Col>
         </Form.Group>
       ))}

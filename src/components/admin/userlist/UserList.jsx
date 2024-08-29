@@ -51,7 +51,7 @@ const UserList = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     fetchData(`${import.meta.env.VITE_BASE_URL}/users/byowner/${user.id}`, "GET", null, user.token);
     
-    handleFormClose(); // Cerrar el formulario
+    handleFormClose();
   };
 
   const filteredUsers = data?.filter((user) => {
