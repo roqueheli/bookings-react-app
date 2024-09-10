@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Row, Col } from 'react-bootstrap';
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../../hooks/useFetch";
 
 const CategoriesSelect = ({ selectedCategory, handleCategoryChange }) => {
   const { data, fetchData } = useFetch();
@@ -18,9 +18,9 @@ const CategoriesSelect = ({ selectedCategory, handleCategoryChange }) => {
         </Form.Label>
         <Col sm="10">
           <Form.Select
-            value={selectedCategory}
+            value={selectedCategory || ""}
             onChange={handleCategoryChange}>
-            <option>Seleccione una categoría</option>
+            <option value="" disabled>Seleccione una categoría</option>
             {data?.map((category) => (
               <option key={category?.category_id} value={category?.category_id}>
                 {category?.name}

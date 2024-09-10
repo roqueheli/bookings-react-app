@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header";
-import Home from "./pages/home/Home";
 import Footer from "./components/footer/Footer";
-import Admin from "./pages/admin/Admin";
-import PlaceForm from "./components/PlaceForm/PlaceForm";
+import HomeRoutes from "./routes/HomeRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
+import NotFound from "./components/notfound/NotFound";
+import ProtectedRoute from "./components/utils/ProtectedRoute";
 import "./App.css";
 
 function App() {
@@ -12,9 +13,9 @@ function App() {
       <Header />
       <div className="content">
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/admin/*" element={<Admin />}></Route>
-          <Route path="/admin/add-place" element={<PlaceForm />} />
+          <Route path="/*" element={<HomeRoutes />} />
+          <Route path="/admin/*" element={<ProtectedRoute><AdminRoutes /></ProtectedRoute>}/>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       <Footer />

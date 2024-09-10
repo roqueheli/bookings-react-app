@@ -1,0 +1,29 @@
+.place-card {
+  height: 100%;
+}
+
+.card-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.price-text {
+  max-width: 70%; /* Limita el ancho del precio */
+  white-space: nowrap; /* Evita que el precio se divida en varias líneas */
+  overflow: hidden; /* Oculta cualquier texto que exceda el ancho */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+}
+
+.btn-sm {
+  flex-shrink: 0; /* Evita que el botón se reduzca en tamaño */
+  background-color: #3dd9eb !important;
+  border-color: #3dd9eb !important;
+  color: #f55376 !important;
+  transition: 0.5s all ease;
+}
+
+.btn-sm:hover {
+  color: #3dd9eb !important;
+  border-color: #f55376 !important;
+  background-color: #f55376 !important;
+}

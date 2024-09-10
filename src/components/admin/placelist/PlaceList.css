@@ -1,0 +1,20 @@
+.button-back {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 5rem;
+  padding-bottom: 1.5rem;
+}
+
+.placelist-btn {
+  background-color: transparent !important;
+  color: #3dd9eb !important;
+  border-color: #3dd9eb !important;
+  transition: 0.5s all ease;
+}
+
+.placelist-btn:hover {
+  background-color: #3dd9eb !important;
+  color: #f55376 !important;
+  border-color: #f55376 !important;
+}

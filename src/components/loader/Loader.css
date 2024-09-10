@@ -1,0 +1,12 @@
+.loader-container {
+  height: 75vh;
+}
+
+.custom-spinner {
+  width: 5rem !important; /* Tamaño del spinner */
+  height: 5rem !important; /* Tamaño del spinner */
+  border-width: 0.5rem !important; /* Grosor del borde */
+  border-color: #f55376; /* Color del borde */
+  border-right-color: transparent; /* Hace transparente una parte del borde */
+  color: #3dd9eb; /* Color del spinner */
+}

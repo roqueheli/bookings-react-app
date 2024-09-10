@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../configuration/firebaseConfig.js"; // Asegúrate de importar tu configuración de Firebase
+import { storage } from "../configuration/firebaseConfig.js";
 
 const useForm = (initialValues = {}) => {
   const [place, setPlace] = useState(initialValues);
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedRRSS, setSelectedRRSS] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
   const [progress, setProgress] = useState(0);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPlace({ ...place, [name]: value });
@@ -39,18 +40,23 @@ const useForm = (initialValues = {}) => {
     setPlace((prevPlace) => ({ ...prevPlace, images: newImages }));
   };
 
-  const addImageField = () => {
-    setPlace((prevPlace) => ({
-      ...prevPlace,
-      images: [...prevPlace.images, { img_url: "" }],
-    }));
-  };
-
   const handleRoomChange = (e, index) => {
     const { name, value } = e.target;
     const newRooms = [...place.rooms];
     newRooms[index][name] = value;
     setPlace({ ...place, rooms: newRooms });
+  };
+
+  const handleRRSSChange = (e, index) => {
+    const { name, value } = e.target;
+    const newRRSS = [...place.placesRRSSs];
+    newRRSS[index][name === 'rrssId' ? 'rrss' : name] = name === 'rrssId' ? { rrssId: value } : value;
+    setPlace({ ...place, placesRRSSs: newRRSS });
+    
+    // Mantén el estado de las selecciones de RRSS para cada índice
+    const newSelectedRRSS = Array.isArray(selectedRRSS) ? [...selectedRRSS] : [];
+    newSelectedRRSS[index] = value;
+    setSelectedRRSS(newSelectedRRSS);
   };
 
   const handleServiceChange = (e) => {
@@ -73,12 +79,8 @@ const useForm = (initialValues = {}) => {
       selectedServices.map((service) => service.service.service_id)
     );
   };
-
-  const addRoomField = () => {
-    setPlace({ ...place, rooms: [...place.rooms, { name: "", capacity: "" }] });
-  };
-
-  const handleImageUpload = (e, index) => {   
+  
+  const handleImageUpload = (e, index) => {
     if (!e.target.files[0]) return;
 
     // Crea una referencia al almacenamiento de Firebase
@@ -101,10 +103,31 @@ const useForm = (initialValues = {}) => {
       () => {
         // Obtiene la URL de descarga cuando la subida es exitosa
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          handleImageChange({ target: { name: 'img_url', value: downloadURL } }, index);
+          handleImageChange(
+            { target: { name: "img_url", value: downloadURL } },
+            index
+          );
         });
       }
     );
+  };
+
+  const addImageField = () => {
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      images: [...prevPlace.images, { img_url: "" }],
+    }));
+  };
+
+  const addRRSSField = () => {
+    setPlace((prevPlace) => ({
+      ...prevPlace,
+      placesRRSSs: [...prevPlace.placesRRSSs, { rrss: { rrssId: '' }, rrssUrl: ''}],
+    }));
+  };
+
+  const addRoomField = () => {
+    setPlace({ ...place, rooms: [...place.rooms, { name: "", capacity: "" }] });
   };
 
   const resetForm = () => {
@@ -126,8 +149,13 @@ const useForm = (initialValues = {}) => {
     handleCategoryChange,
     selectedCategory,
     resetForm,
+    addRRSSField,
+    handleRRSSChange,
     handleImageUpload,
-    progress
+    progress,
+    selectedRRSS,
+    setSelectedCategory,
+    setSelectedRRSS
   };
 };
 

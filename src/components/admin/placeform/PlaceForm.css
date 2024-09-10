@@ -32,3 +32,14 @@ form button {
   color: #f55376 !important;
   border-color: #f55376 !important;
 }
+
+.no-spin-input {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;
+}
+
+.no-spin-input::-webkit-outer-spin-button,
+.no-spin-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
