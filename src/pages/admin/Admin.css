@@ -1,3 +1,7 @@
+.container {
+  padding: 2rem;
+}
+
 .admin-container {
   display: flex; /* Usar flexbox para la disposición */
   flex-direction: column; /* Alinear elementos verticalmente */
@@ -14,6 +18,23 @@
   flex-direction: column; /* Alinear botones verticalmente */
   align-items: center; /* Centrar horizontalmente */
   flex-grow: 1; /* Permitir que este contenedor crezca para ocupar el espacio restante */
+}
+
+fieldset {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 2rem;
+}
+
+.right-side,
+.left-side {
+  width: 45%;
+}
+
+.s-section {
+  background-size: cover;
+  position: relative;
 }
 
 .admin-button {

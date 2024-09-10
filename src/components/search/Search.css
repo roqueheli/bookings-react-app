@@ -1,10 +1,14 @@
-.nav-container {
-  min-height: 10rem;
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
 }
 
 .form-control {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
 }
 
 .h3-title {
@@ -24,46 +28,21 @@
   background-color: #f55376 !important;
 }
 
+.form-container {
+  width: 80%;
+  padding: 1rem;
+}
+
 .react-datepicker-wrapper {
   width: 100% !important;
+  height: 3rem;
 }
 
 .form-control {
   height: 3rem !important;
 }
 
-.input-group {
-  display: flex;
-}
-
-@media (max-width: 576px) {
-  .input-group-text {
-    display: none;
-  }
-
-  .nav-container {
-    min-height: 12rem;
-  }
-
-  .form-control {
-    height: auto !important;
-  }
-}
-
-@media(max-width: 767px){
-  .d-grid {
-    margin-bottom: 1.5rem !important;
-  }
-}
-
-@media(max-width: 530px){
-  .search-container {
-    padding-top: 40px;
-  }
-}
-
-@media(max-width: 463px){
-  .search-container {
-    padding-top: 70px;
-  }
+.custom-datepicker .react-datepicker__input-container input {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
