@@ -1,18 +1,18 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import Home from "../pages/home/Home";
-import PlaceCardDetail from "../components/placecard/PlaceCardDetail";
+import UserRegister from "../components/user/UserRegister";
+import Login from "../components/user/Login";
 import NotFound from "../components/notfound/NotFound";
 import "../Transition.css";
 
-const HomeRoutes = () => {
+const UserRoutes = () => {
   return (
     <TransitionGroup>
       <CSSTransition key={location.key} timeout={1000} classNames="fade">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/place/:id" element={<PlaceCardDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<UserRegister />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </CSSTransition>
@@ -20,4 +20,4 @@ const HomeRoutes = () => {
   );
 };
 
-export default HomeRoutes;
+export default UserRoutes;

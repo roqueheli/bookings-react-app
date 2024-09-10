@@ -4,6 +4,7 @@ import { storage } from "../configuration/firebaseConfig.js";
 
 const useForm = (initialValues = {}) => {
   const [place, setPlace] = useState(initialValues);
+  const [formData, setFormData] = useState(initialValues);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedRRSS, setSelectedRRSS] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
@@ -12,6 +13,21 @@ const useForm = (initialValues = {}) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPlace({ ...place, [name]: value });
+  };
+
+  const handleRegisterChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  const handleRegisterAddressChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      address: { ...formData.address, [name]: value },
+    });
   };
 
   const handleAddressChange = (e) => {
@@ -75,9 +91,7 @@ const useForm = (initialValues = {}) => {
       placeServices: selectedServices,
     });
 
-    setSelectedServices(
-      selectedServices.map((service) => service.service.service_id)
-    );
+    setSelectedServices(selectedServices.map(service => service.service.service_id));
   };
   
   const handleImageUpload = (e, index) => {
@@ -132,14 +146,17 @@ const useForm = (initialValues = {}) => {
 
   const resetForm = () => {
     setPlace(initialValues);
+    setFormData(initialValues)
     setSelectedServices([]);
     setSelectedCategory("");
   };
 
   return {
     ...place,
+    ...formData,
     handleChange,
     handleAddressChange,
+    handleRegisterAddressChange,
     handleImageChange,
     handleRoomChange,
     handleServiceChange,
@@ -155,7 +172,9 @@ const useForm = (initialValues = {}) => {
     progress,
     selectedRRSS,
     setSelectedCategory,
-    setSelectedRRSS
+    setSelectedRRSS,
+    setSelectedServices,
+    handleRegisterChange
   };
 };
 

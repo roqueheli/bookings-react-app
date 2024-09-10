@@ -1,17 +1,16 @@
 .place-card {
-  height: 100%;
+  width: 100%;
+  max-width: 300px;
+  min-width: 250px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-image {
+  width: 100%;
   height: 200px;
   object-fit: cover;
-}
-
-.price-text {
-  max-width: 70%; /* Limita el ancho del precio */
-  white-space: nowrap; /* Evita que el precio se divida en varias líneas */
-  overflow: hidden; /* Oculta cualquier texto que exceda el ancho */
-  text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
 }
 
 .btn-sm {

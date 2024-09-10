@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Container, Button } from "react-bootstrap";
 import PlaceCard from "../../components/placecard/PlaceCard";
 import Search from "../../components/search/Search";
@@ -8,20 +8,31 @@ import Loader from "../../components/loader/Loader";
 import "./Home.css";
 
 const Home = () => {
+  const [ places, setPlaces ] = useState([]);
   const { data, isLoading, fetchData } = useFetch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [placesPerPage] = useState(10);
+  const [ currentPage, setCurrentPage ] = useState(1);
+  const [ placesPerPage ] = useState(10);
+
+  const loadPlaces = useCallback(() => {
+    if (!places.length) {
+      fetchData(`${import.meta.env.VITE_BASE_URL}/places/random`, "GET");
+    }
+  }, [places.length, fetchData]);
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchData(`${import.meta.env.VITE_BASE_URL}/places/random`, "GET");
-    }, 1000);
-  }, []);
+    if (data && data.length > 0) {
+      setPlaces(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    loadPlaces();
+  }, [loadPlaces]);
 
   // Calculate the current page data
   const indexOfLastPlace = currentPage * placesPerPage;
   const indexOfFirstPlace = indexOfLastPlace - placesPerPage;
-  const currentPlaces = data?.slice(indexOfFirstPlace, indexOfLastPlace);
+  const currentPlaces = places?.slice(indexOfFirstPlace, indexOfLastPlace);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -29,7 +40,7 @@ const Home = () => {
   return (
     <>
       <Search />
-      {(data === null || data.length === 0) && isLoading === false ? (
+      {(data === null || data?.length === 0) && isLoading === false ? (
         <NoResults />
       ) : isLoading ? (
         <Loader />
@@ -40,7 +51,6 @@ const Home = () => {
               <PlaceCard place={place} key={place?.place_id} />
             ))}
           </div>
-          {/* Pagination controls */}
           <div className="pagination-controls">
             <Button className="m-2"
               variant="secondary"

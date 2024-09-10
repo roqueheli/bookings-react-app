@@ -3,7 +3,7 @@ import { Form, Accordion } from "react-bootstrap";
 import useFetch from "../../../hooks/useFetch";
 
 const ServicesSelect = ({ selectedServices, handleServiceChange }) => {
-  const { data, isLoading, error, fetchData } = useFetch();
+  const { data, fetchData } = useFetch();
 
   useEffect(() => {
     fetchData(`${import.meta.env.VITE_BASE_URL}/services/all`, "GET");
@@ -20,7 +20,7 @@ const ServicesSelect = ({ selectedServices, handleServiceChange }) => {
               <Form.Select
                 className="custom-select-multiple"
                 multiple
-                value={selectedServices}
+                value={selectedServices || ""}
                 onChange={handleServiceChange}>
                 {data?.map((service) => (
                   <option key={service?.service_id} value={service?.service_id}>
