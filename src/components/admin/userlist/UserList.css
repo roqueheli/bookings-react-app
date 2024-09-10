@@ -18,3 +18,17 @@
   color: #f55376 !important;
   border-color: #f55376 !important;
 }
+
+.search-field {
+  width: 35% !important;
+  height: 2.4rem !important;
+  margin-left: 10px !important;
+  border-radius: 5px !important;
+}
+
+@media (min-width: 992px) {
+  .modal-lg,
+  .modal-xl {
+    --bs-modal-width: 1300px;
+  }
+}

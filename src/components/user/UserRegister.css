@@ -28,3 +28,7 @@
 .password-strength-strong {
   background: linear-gradient(to right, lightgreen 0%, green 100%);
 }
+
+.form-control  {
+  border-radius: 5px !important;
+}

@@ -8,6 +8,7 @@ const useForm = (initialValues = {}) => {
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedRRSS, setSelectedRRSS] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedPlaces, setSelectedPlaces] = useState([]);
   const [progress, setProgress] = useState(0);
   
   const handleChange = (e) => {
@@ -28,6 +29,24 @@ const useForm = (initialValues = {}) => {
       ...formData,
       address: { ...formData.address, [name]: value },
     });
+  };
+
+  const handlePlacesChange = (selectedOptions) => {
+    const selectedPlaces = selectedOptions.map(option => ({
+      place: {
+        place_id: option,
+      },
+      user: { 
+        user_id: initialValues?.user_id
+      },
+    }));
+  
+    setFormData({
+      ...formData,
+      userPlaces: selectedPlaces,
+    });
+  
+    setSelectedPlaces(selectedOptions);
   };
 
   const handleAddressChange = (e) => {
@@ -174,7 +193,10 @@ const useForm = (initialValues = {}) => {
     setSelectedCategory,
     setSelectedRRSS,
     setSelectedServices,
-    handleRegisterChange
+    handleRegisterChange,
+    handlePlacesChange,
+    selectedPlaces,
+    formData
   };
 };
 

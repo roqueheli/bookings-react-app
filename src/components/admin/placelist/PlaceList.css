@@ -18,3 +18,17 @@
   color: #f55376 !important;
   border-color: #f55376 !important;
 }
+
+@media (min-width: 992px) {
+  .modal-lg, .modal-xl {
+      --bs-modal-width: 1300px;
+  }
+}
+
+.custom-modal .modal-dialog {
+  max-width: 90% !important; /* Ajusta el ancho a un 90% del viewport */
+}
+
+.custom-modal .modal-body {
+  padding: 20px !important; /* Ajusta el padding del cuerpo del modal */
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { useAuth } from '../../../context/AuthContext';
 import useForm from '../../../hooks/useForm';
 import useFetch from '../../../hooks/useFetch';
 import CategoriesSelect from './CategoriesSelect';
@@ -15,6 +16,7 @@ import './PlaceForm.css';
 
 
 const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated }) => {
+    const { user } = useAuth();
     const [isModified, setIsModified] = useState(false);
     const [initialData, setInitialData] = useState(null);
     const initialValues = {
@@ -24,6 +26,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
         email: place?.email || '',
         location: place?.location || '',
         calification: place?.calification || 0.0,
+        userCreationId: place?.userCreationId || user.user_id,
         category: place?.category || { category_id: '', name: '' },
         address: place?.address || {
             street: '',
@@ -41,7 +44,6 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
         rooms: place?.rooms || [{ name: '', capacity: '' }],
         placeServices: place?.placeServices || [{ service: { service_id: '', name: '' } }]
     };
-
     const {
       place_id,
       name,
@@ -49,6 +51,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
       email,
       category,
       calification,
+      userCreationId,
       address,
       location,
       placesRRSSs,
@@ -108,13 +111,12 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
             setSelectedRRSS({ target: { value: place.placesRRSSs.map((r) => r.rrss.rrssId) }, });
         }
     }, [place]);
-
     
     const handleSubmit = async (e) => {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: "smooth" });
         // Verificar si hay modificaciones antes de enviar el formulario
-        if (initialData && JSON.stringify({ place_id, name, phone, email, location, calification, address, category, placesRRSSs, images, rooms, placeServices }) === JSON.stringify(initialData)) {
+        if (initialData && JSON.stringify({ place_id, name, phone, email, location, calification, userCreationId, address, category, placesRRSSs, images, rooms, placeServices }) === JSON.stringify(initialData)) {
             setIsModified(true);
             setShowSuccess(true);
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -126,7 +128,7 @@ const PlaceForm = ({ place, isEditMode = false, handleFormClose, onPlaceUpdated 
             ? `${import.meta.env.VITE_BASE_URL}/places/update` 
             : `${import.meta.env.VITE_BASE_URL}/places/save`;
         
-        await fetchData(url, method, { place_id, name, phone, email, category, calification, address, placesRRSSs, images, rooms, placeServices });
+        await fetchData(url, method, { place_id, name, phone, email, category, calification, userCreationId, address, placesRRSSs, images, rooms, placeServices }, user.token);
     };
 
     return (

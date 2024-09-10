@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Container, Modal } from "react-bootstrap";
+import { Table, Button, Container, Modal, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
 import Loader from "../../loader/Loader";
 import PlaceForm from "../placeform/PlaceForm";
 import "./PlaceList.css";
+import { useAuth } from "../../../context/AuthContext";
 
 const PlaceList = () => {
   const { data, isLoading, fetchData } = useFetch();
-  const [show, setShow] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  const [ show, setShow ] = useState(false);
+  const { user } = useAuth();
+  const [ selectedPlace, setSelectedPlace ] = useState(null);
+  const [ searchTerm, setSearchTerm ] = useState("");
+  const [ showForm, setShowForm ] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData(`${import.meta.env.VITE_BASE_URL}/places/all`, "GET");
-  }, []);
+    fetchData(`${import.meta.env.VITE_BASE_URL}/user-places/user/${user.id}`, "GET", null, user.token);
+  }, [user.token]);
 
   const handleClose = () => setShow(false);
 
@@ -45,21 +48,34 @@ const PlaceList = () => {
 
   const handlePlaceUpdated = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    fetchData(`${import.meta.env.VITE_BASE_URL}/places/all`, "GET"); // Refrescar la lista de lugares
+    fetchData(`${import.meta.env.VITE_BASE_URL}/places/byowner/${user.id}`, "GET", null, user.token); // Refrescar la lista de lugares
     
     handleFormClose(); // Cerrar el formulario
   };
 
+  const filteredPlaces = data?.filter((place) => {
+    return (
+      place?.place.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place?.place.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      place?.place.phone.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return (
     <>
-      <Container style={{ height: "85vh" }}>
+      <Container style={{ height: "73vh" }}>
         <h2 className="my-4">Lista de Lugares</h2>
-        <Button
-          variant="primary"
-          className="mb-3 placelist-btn"
-          onClick={handleAddNew}>
-          Agregar Nuevo Lugar
-        </Button>
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <Button variant="primary" className="mb-3 placelist-btn" onClick={handleAddNew}>
+            Agregar nuevo lugar
+          </Button>
+          <Form.Control
+              type="text"
+              placeholder="Buscar por nombre, email o phone"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="mb-3 search-field" />
+        </div>
         {isLoading ? (
           <Loader />
         ) : (
@@ -74,22 +90,22 @@ const PlaceList = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((place) => (
-                <tr key={place.place_id}>
-                  <td>{place.place_id}</td>
-                  <td>{place.name}</td>
-                  <td>{place.location}</td>
-                  <td>{place.calification}</td>
+              {filteredPlaces?.map((place) => (
+                <tr key={place.place.place_id}>
+                  <td>{place.place.place_id}</td>
+                  <td>{place.place.name}</td>
+                  <td>{place.place.location}</td>
+                  <td>{place.place.calification}</td>
                   <td>
                     <Button
                       variant="warning"
                       className="me-2"
-                      onClick={() => handleEdit(place)}>
+                      onClick={() => handleEdit(place.place)}>
                       Modificar
                     </Button>
                     <Button
                       variant="danger"
-                      onClick={() => handleShow(place.place_id)}>
+                      onClick={() => handleShow(place.place.place_id)}>
                       Eliminar
                     </Button>
                   </td>
@@ -117,7 +133,7 @@ const PlaceList = () => {
         </Modal.Footer>
       </Modal>
       {(showForm && !isLoading) && (
-        <Modal show={showForm} onHide={handleFormClose} size="lg">
+        <Modal show={showForm} onHide={handleFormClose} size="xl" className="custom-modal">
           <Modal.Header closeButton>
             <Modal.Title>{selectedPlace?.place_id ? 'Modificar Lugar' : 'Agregar Nuevo Lugar'}</Modal.Title>
           </Modal.Header>
